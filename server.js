@@ -1,16 +1,21 @@
 const express = require('express');
+const cors = require('cors')
 
 const app = express();
 require("dotenv").config();
+
+app.use(cors())
+app.use(express.json())
+
 const port = process.env.port
 app.get('/', (req, res) => {
     res.send("hello world")
 })
 // GET endpoint to retrieve email
-app.get('/login', (req, res) => {
+app.post('/login', (req, res) => {
+    const body = req.body
+    console.log(body)
     res.send('login')
-    console.log(`request: ${req}`)
-    console.log(`response: ${res}`)
 });
 
 app.get('/register', (req, res) => {
