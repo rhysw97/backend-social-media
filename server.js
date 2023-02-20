@@ -18,6 +18,16 @@ app.post('/login', (req, res) => {
     res.send('login')
 });
 
+
+
+app.post('/register', (req, res) => {
+    const body = req.body
+    console.log(body)
+
+    //check if username or email is taken
+    res.send('register')
+})
+
 app.get('/register', (req, res) => {
     res.send('register')
 })
