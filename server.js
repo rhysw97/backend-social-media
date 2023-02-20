@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 
+//mongodb mongodb+srv://rhysw97:<password>@cluster0.xsnkawm.mongodb.net/?retryWrites=true&w=majority
 const app = express();
 require("dotenv").config();
 
