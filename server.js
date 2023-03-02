@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors')
-
-//mongodb mongodb+srv://rhysw97:gigmates1234@cluster0.xsnkawm.mongodb.net/?retryWrites=true&w=majority
+const Database = require('./database')
+//YGZxR5P9sFV13v8c
+const db = new Database.Database("mongodb+srv://rhysw97:YGZxR5P9sFV13v8c@cluster0.cf9pzwu.mongodb.net/?retryWrites=true&w=majority")
 const app = express();
 require("dotenv").config();
 
@@ -24,16 +25,29 @@ app.post('/login', (req, res) => {
 app.post('/register', (req, res) => {
     const body = req.body
     console.log(body)
+    
+    db.addUserToDatabase(body)
 
     //check if username or email is taken
+    //if it is send back to the client to display to user
+    //if not create new user and send back to client that user has been created and move onto profile set up page 
+    //may complete profile set up page later and sort out user post system first //my guys this seems to be going okay at least for now
     res.send('register')
 })
+
+
+
 
 app.get('/register', (req, res) => {
     res.send('register')
 })
 
 
-app.listen(port, () =>
-  console.log(`App listening on port ${port}!`),
+app.listen(port, () =>{
+        console.log(`App listening on port ${port}!`)
+        db.listDatabases()
+        db.checkDatabaseForEmail()
+    }
+    
 );
+
