@@ -7,7 +7,6 @@ class Database {
     async checkDatabaseForEmail() {
      
         const result = await this.client.db('gigmates')
-        console.log(result)
     }
     async addUserToDatabase(databaseName, collectionName, data) {
        
@@ -16,10 +15,13 @@ class Database {
            
             const result = await this.client.db(databaseName).collection(collectionName).insertOne(data)
             console.log(`New user created with the following username: ${result.insertedId}`)
+            console.log(result)
+            const users = await this.client.db(databaseName).collection(collectionName).find()
+            console.log(users)
         } catch(e) {
             console.error(e)
         } finally {
-            await client.close()
+            await this.client.close()
         }
     }
 
@@ -32,7 +34,5 @@ class Database {
         });
     }
 }
-
-
 
 module.exports = {Database}

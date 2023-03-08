@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors')
 const Database = require('./database')
 //YGZxR5P9sFV13v8c
-const db = new Database.Database("mongodb+srv://rhysw97:YGZxR5P9sFV13v8c@cluster0.cf9pzwu.mongodb.net/?retryWrites=true&w=majority")
+const db = new Database.Database("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
+//7jv51e8bzb4jg0xP
 const app = express();
 require("dotenv").config();
 
@@ -24,9 +25,8 @@ app.post('/login', (req, res) => {
 
 app.post('/register', (req, res) => {
     const body = req.body
-    console.log(body)
-    
-    db.addUserToDatabase(body)
+
+    db.addUserToDatabase('gig-mates', 'Users', body)
 
     //check if username or email is taken
     //if it is send back to the client to display to user
