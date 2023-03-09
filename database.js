@@ -7,22 +7,25 @@ class Database {
     async checkDatabaseForEmail() {
      
         const result = await this.client.db('gigmates')
+        console.log(result)
     }
     async addUserToDatabase(databaseName, collectionName, data) {
        
         try{
             await this.client.connect();
-           
-            const result = await this.client.db(databaseName).collection(collectionName).insertOne(data)
-            console.log(`New user created with the following username: ${result.insertedId}`)
-            console.log(result)
-            const users = await this.client.db(databaseName).collection(collectionName).find()
+    
+            const added = await this.client.db(databaseName).collection(collectionName).insertOne(data)
+            console.log(`New user created with the following username: ${added.insertedId}`)
+            const users = []
+            this.client.db(databaseName).collection(collectionName).find({}).toArray((err, result) => {
+                if (err) throw err
+                console.log(result)
+            })
             console.log(users)
         } catch(e) {
-            console.error(e)
-        } finally {
-            await this.client.close()
+           console.error(e)
         }
+      
     }
 
     async listDatabases() {

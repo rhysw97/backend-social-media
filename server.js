@@ -3,7 +3,6 @@ const cors = require('cors')
 const Database = require('./database')
 //YGZxR5P9sFV13v8c
 const db = new Database.Database("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
-//7jv51e8bzb4jg0xP
 const app = express();
 require("dotenv").config();
 
@@ -25,7 +24,7 @@ app.post('/login', (req, res) => {
 
 app.post('/register', (req, res) => {
     const body = req.body
-
+    console.log(body)
     db.addUserToDatabase('gig-mates', 'Users', body)
 
     //check if username or email is taken
@@ -45,8 +44,8 @@ app.get('/register', (req, res) => {
 
 app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
-        db.listDatabases()
-        db.checkDatabaseForEmail()
+         db.listDatabases()
+      //  db.checkDatabaseForEmail()
     }
     
 );
