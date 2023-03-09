@@ -25,16 +25,19 @@ app.post('/login', (req, res) => {
 app.post('/register', (req, res) => {
     const body = req.body
     console.log(body)
-    db.addUserToDatabase('gig-mates', 'Users', body)
-
+    createUser(res, body)
+   
     //check if username or email is taken
     //if it is send back to the client to display to user
     //if not create new user and send back to client that user has been created and move onto profile set up page 
     //may complete profile set up page later and sort out user post system first //my guys this seems to be going okay at least for now
-    res.send('register')
 })
 
-
+async function createUser(response, data) {
+    const checks = await db.addUserToDatabase('gig-mates', 'Users', data)
+    console.log(checks)
+    response.send(JSON.stringify(checks))
+}
 
 
 app.get('/register', (req, res) => {
