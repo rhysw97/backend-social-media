@@ -16,17 +16,16 @@ class Database {
         }
         try{
             await this.client.connect();
-            
+
             const emailCheck  = await this.client.db(databaseName).collection('Users').findOne({email: data.email})
             const usernameCheck  = await this.client.db(databaseName).collection('Users').findOne({username: data.username})
-            console.log(usernameCheck)
-            if(emailCheck.email === data.email) {
+            if(emailCheck) {
                 errors.email = true
             } else {
                 errors.email = false
             }
 
-            if(usernameCheck.username === data.username) {
+            if(usernameCheck) {
                 errors.username = true
             } else {
                 errors.username = false
