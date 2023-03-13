@@ -1,4 +1,4 @@
-const {MongoClient} = require('mongodb')
+const {MongoClient, Collection} = require('mongodb')
 
 class Database {
     constructor(uri) {
@@ -17,8 +17,10 @@ class Database {
         try{
             await this.client.connect();
 
-            const emailCheck  = await this.client.db(databaseName).collection('Users').findOne({email: data.email})
-            const usernameCheck  = await this.client.db(databaseName).collection('Users').findOne({username: data.username})
+            const emailCheck  = await this.client.db(databaseName).collection(collectionName).findOne({email: data.email})
+
+            const usernameCheck  = await this.client.db(databaseName).collection(collectionName).findOne({username: data.username})
+            
             if(emailCheck) {
                 errors.email = true
             } else {
@@ -31,12 +33,13 @@ class Database {
                 errors.username = false
             }
 
-            if(!errors.username || !errors.email) {
+            if(!errors.username && !errors.email) {
                 const added = await this.client.db(databaseName).collection(collectionName).insertOne(data)
             } else {
                 console.log("Not add due to duplicate")
             }
 
+            this.client.close()
             return errors
         
         } catch(e) {
@@ -44,6 +47,17 @@ class Database {
         }
     }
 
+    async checkLoginDetails(databaseName, collectionName, data ) {
+        try {
+            await this.client.connect()
+            const loginCheck  = await this.client.db(databaseName).collection(collectionName).findOne({email: data.email, password: data.password})
+            console.log(loginCheck)
+            this.client.close()
+            return loginCheck
+        } catch(e) {
+            console.error(e)
+        }
+    }
     async listDatabases() {
         const databasesList = await this.client.db().admin().listDatabases()
         console.log("Databases:")
