@@ -4,37 +4,24 @@ class Database {
     constructor(uri) {
         this.client = new MongoClient(uri)
     }
-    async checkDatabaseForEmail() {
-     
-        const result = await this.client.db('gigmates')
-        console.log(result)
-    }
+
     async addUserToDatabase(databaseName, collectionName, data) {
-        const errors = {
-            email: false,
-            username: false,
-        }
+        
         try{
             await this.client.connect();
 
             const emailCheck  = await this.client.db(databaseName).collection(collectionName).findOne({email: data.email})
 
             const usernameCheck  = await this.client.db(databaseName).collection(collectionName).findOne({username: data.username})
-            
-            if(emailCheck) {
-                errors.email = true
-            } else {
-                errors.email = false
-            }
 
-            if(usernameCheck) {
-                errors.username = true
-            } else {
-                errors.username = false
+
+            const errors = {
+                email: this.checkData(emailCheck),
+                username: this.checkData(usernameCheck),
             }
 
             if(!errors.username && !errors.email) {
-                const added = await this.client.db(databaseName).collection(collectionName).insertOne(data)
+                await this.client.db(databaseName).collection(collectionName).insertOne(data)
             } else {
                 console.log("Not add due to duplicate")
             }
@@ -45,6 +32,12 @@ class Database {
         } catch(e) {
             console.error(e)
         }
+    }
+
+    checkData = dataToCheck => dataToCheck? true: false
+
+    addDataToDataBase(database, collectionName, data) {
+
     }
 
     async checkLoginDetails(databaseName, collectionName, data ) {
