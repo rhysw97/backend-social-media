@@ -30,19 +30,19 @@ app.use(session({
 const cookieParser=require('cookie-parser')
 app.use(cookieParser())
 
-app.use((req, res, next) => {
-    console.log(req.session);
+app.use((request, res, next) => {
+    console.log(request.session);
     next();
 })
 
 const port = process.env.PORT
-app.get('/', (req, res) => {
-    res.send("hello world")
+app.get('/', (request, response) => {
+    response.send("hello world")
 })
 // GET endpoint to retrieve email
-app.post('/login', (req, res) => {
-    const body = req.body
-    waitForLoginDetails(body, res, req);
+app.post('/login', (request, response) => {
+    const body = request.body
+    waitForLoginDetails(body, response, request);
 });
 
 async function waitForLoginDetails(data, response, request) {
@@ -58,10 +58,10 @@ async function waitForLoginDetails(data, response, request) {
 }
 
 
-app.post('/register', (req, res) => {
-    const body = req.body
+app.post('/register', (request, response) => {
+    const body = request.body
     console.log(body)
-    createUser(res, req, body)
+    createUser(response, request, body)
     //check if username or email is taken
     //if it is send back to the client to display to user
     //if not create new user and send back to client that user has been created and move onto profile set up page 
@@ -77,17 +77,18 @@ async function createUser(response, request, data) {
     response.send(JSON.stringify(checks))
 }
 
-
-app.get('/register', (req, res) => {
-    res.send('register')
-})
-
 app.post('/logout', (request, response) => {
     request.session.destroy();
 })
 
 app.post('/posts', (request, response) => {
     console.log(request.session.username)
+    data = request.body
+    db.addDataToDataBase('gig-mates', 'Posts', data)
+})
+
+app.get('/recentPosts', (request, response) => {
+    
 })
 
 app.listen(port, () =>{
