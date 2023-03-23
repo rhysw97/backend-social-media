@@ -84,11 +84,17 @@ app.post('/logout', (request, response) => {
 app.post('/posts', (request, response) => {
     console.log(request.session.username)
     data = request.body
-    db.addDataToDataBase('gig-mates', 'Posts', data)
+    console.log(data)
+    const newPost  = {
+        username: request.session.username,
+        post: data
+    };
+
+    db.addDataToDataBase('gig-mates', 'Posts', newPost)
 })
 
 app.get('/recentPosts', (request, response) => {
-    
+    db.getDataFromCollection('gig-mates', "Posts", response)
 })
 
 app.listen(port, () =>{

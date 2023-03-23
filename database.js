@@ -59,6 +59,13 @@ class Database {
             console.log(database.name)
         });
     }
+
+    async getDataFromCollection(database, collectionName, response) {
+        await this.client.connect()
+        const getPosts = await this.client.db(database).collection(collectionName).find({})
+        console.log(getPosts)
+        response.send(getPosts)
+    }
 }
 
 module.exports = {Database}
