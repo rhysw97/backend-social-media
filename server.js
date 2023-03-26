@@ -4,6 +4,12 @@ const Database = require('./database');
 const { restart } = require('nodemon');
 const session=require('express-session')
 //YGZxR5P9sFV13v8c
+const {addNewPost, getPosts} = require('./components/post')
+
+const mongoose=require('mongoose')
+
+
+mongoose.connect("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
 
 const db = new Database.Database("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
 //const db = new Database.Database(`mongodb+srv://rhysw97:${process.env.DATABASE_PASSWORD}@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority`)
@@ -37,7 +43,7 @@ app.use((request, res, next) => {
 
 const port = process.env.PORT
 app.get('/', (request, response) => {
-    response.send("hello world")
+    response.send("Welcome to gig-mates")
 })
 // GET endpoint to retrieve email
 app.post('/login', (request, response) => {
@@ -83,14 +89,15 @@ app.post('/logout', (request, response) => {
 
 app.post('/posts', (request, response) => {
     console.log(request.session.username)
+    addNewPost(request.session.username, request.body )
     data = request.body
-    console.log(data)
+   // console.log(data)
     const newPost  = {
         username: request.session.username,
         post: data
     };
 
-    db.addDataToDataBase('gig-mates', 'Posts', newPost)
+   // db.addDataToDataBase('gig-mates', 'Posts', newPost)
 })
 
 app.get('/recentPosts', (request, response) => {
@@ -100,8 +107,8 @@ app.get('/recentPosts', (request, response) => {
 app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
         db.listDatabases()
-      //  db.checkDatabaseForEmail()
-      
+        // db.checkDatabaseForEmail()
+
     }
 );
 

@@ -36,8 +36,8 @@ class Database {
 
     checkData = dataToCheck => dataToCheck? true: false
 
-    addDataToDataBase(database, collectionName, data) {
-
+    async addDataToDataBase(databaseName, collectionName, data) {
+        await this.client.db(databaseName).collection(collectionName).insertOne(data) 
     }
 
     async checkLoginDetails(databaseName, collectionName, data ) {
@@ -62,9 +62,9 @@ class Database {
 
     async getDataFromCollection(database, collectionName, response) {
         await this.client.connect()
-        const getPosts = await this.client.db(database).collection(collectionName).find({})
-        console.log(getPosts)
-        response.send(getPosts)
+        //const getPosts = await this.client.db(database).collection(collectionName).find({})
+        //console.log(getPosts)
+        //response.send(getPosts)
     }
 }
 

@@ -1,5 +1,5 @@
 interface UserData {
-    id: number
+    id: string
     email: string
     username: string
     dateOfBirth: string
@@ -11,6 +11,14 @@ interface UserData {
     genres: Array<string> //list of genres the person is interested in
     interestedGigs: Array<GigData> //list of gigs the user has registered there interest with
     postHistory: Array<PostData>
+    friendslist: Array<User>
+}
+
+interface User {
+    name: string
+    id: string
+    picture: File
+    profileLink: string //URL
 }
 
 interface GigData {

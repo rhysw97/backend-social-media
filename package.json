@@ -18,6 +18,10 @@
     "express-sessions": "^1.0.6",
     "mongoclient": "^1.0.3",
     "mongodb": "^5.1.0",
+    "mongoose": "^7.0.3",
     "nodemon": "^2.0.21"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97"
   }
 }

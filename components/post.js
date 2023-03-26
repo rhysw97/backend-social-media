@@ -46,7 +46,7 @@ async function getPosts(n=3) {
     return data;
 }
 
-module.exports {
+module.exports = {
     getPosts, 
     addNewPost
 }
