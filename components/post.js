@@ -25,6 +25,8 @@ function addNewPost(userID, post) {
         likes: 0,
         time: Date.now()
     }
+
+    console.log(myPost)
     Post.create(myPost)
         .catch(err=>{
             console.log("Error: "+err)
@@ -43,6 +45,7 @@ async function getPosts(n=3) {
         .catch(err => {
             console.log('Error:' + err)
         })
+    console.log(data)
     return data;
 }
 

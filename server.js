@@ -37,7 +37,7 @@ const cookieParser=require('cookie-parser')
 app.use(cookieParser())
 
 app.use((request, res, next) => {
-    console.log(request.session);
+    
     next();
 })
 
@@ -53,9 +53,8 @@ app.post('/login', (request, response) => {
 
 async function waitForLoginDetails(data, response, request) {
     const login = await db.checkLoginDetails('gig-mates', 'Users', data);
-    console.log(login)
+  
     if(login) {
-        console.log(login.username)
         request.session.username = login.username
         response.send(true)
     } else {
@@ -66,7 +65,7 @@ async function waitForLoginDetails(data, response, request) {
 
 app.post('/register', (request, response) => {
     const body = request.body
-    console.log(body)
+ 
     createUser(response, request, body)
     //check if username or email is taken
     //if it is send back to the client to display to user
@@ -76,7 +75,7 @@ app.post('/register', (request, response) => {
 
 async function createUser(response, request, data) {
     const checks = await db.addUserToDatabase('gig-mates', 'Users', data)
-    console.log(checks)
+  
     if(checks) {
         request.session.username = data.username
     }
@@ -88,10 +87,10 @@ app.post('/logout', (request, response) => {
 })
 
 app.post('/posts', (request, response) => {
-    console.log(request.session.username)
-    addNewPost(request.session.username, request.body )
+
+    addNewPost(request.session.username, response.body )
     data = request.body
-   // console.log(data)
+
     const newPost  = {
         username: request.session.username,
         post: data
@@ -101,7 +100,9 @@ app.post('/posts', (request, response) => {
 })
 
 app.get('/recentPosts', (request, response) => {
-    db.getDataFromCollection('gig-mates', "Posts", response)
+    const recentPosts = getPosts(request.session.username, response.body)
+  
+    response.send(recentPosts)
 })
 
 app.listen(port, () =>{
