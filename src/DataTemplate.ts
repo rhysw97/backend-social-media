@@ -1,3 +1,5 @@
+
+
 interface UserData {
     id: string
     email: string
@@ -11,12 +13,11 @@ interface UserData {
     genres: Array<string> //list of genres the person is interested in
     interestedGigs: Array<GigData> //list of gigs the user has registered there interest with
     postHistory: Array<PostData>
-    friendslist: Array<User>
+    friendslist: Array<FriendData>
 }
 
-interface User {
+interface FriendData {
     name: string
-    id: string
     picture: File
     profileLink: string //URL
 }
@@ -39,22 +40,24 @@ interface GigLocationData {
 
 interface PostData {
     username: string
-    likedBy: Array<LikedUserData>
+    likedBy: Array<FriendData>
     comments: CommentData
     timePosted: string
     attachedFiles: File
 }
 
-interface LikedUserData {
-    username: string
-    profileURL: string
-    profilePicture: File
-}
-
 interface CommentData {
     userName: string
     username: string
-    likedBy: Array<LikedUserData>
+    likedBy: Array<FriendData>
     timePosted: string
 }
+export {
+    UserData,
+    FriendData,
+    GigData,
+    GigLocationData,
+    PostData,
+    CommentData
 
+}

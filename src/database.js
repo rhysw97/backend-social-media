@@ -1,4 +1,4 @@
-const {MongoClient, Collection} = require('mongodb')
+import {MongoClient, Collection} from 'mongodb'
 
 class Database {
     constructor(uri) {
@@ -68,4 +68,4 @@ class Database {
     }
 }
 
-module.exports = {Database}
+export {Database}

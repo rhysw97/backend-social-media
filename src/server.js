@@ -1,13 +1,14 @@
-const express = require('express');
-const cors = require('cors')
-const Database = require('./database');
-const { restart } = require('nodemon');
-const session=require('express-session')
+import express from 'express';
+import cors from 'cors'
+import Database from './database.js';
+import { restart } from 'nodemon';
+import session from 'express-session'
 //YGZxR5P9sFV13v8c
-const {addNewPost, getPosts} = require('./components/post')
+import {addNewPost, getPosts} from './components/post.js'
+import {User} from './components/user.js'
 
-const mongoose=require('mongoose')
-
+import mongoose from 'mongoose'
+const currentUser = new User();
 
 mongoose.connect("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
 
@@ -60,6 +61,8 @@ async function waitForLoginDetails(data, response, request) {
     } else {
         response.send(false)
     }  
+
+    console.log('name', request.session.username)
 }
 
 
@@ -74,7 +77,7 @@ app.post('/register', (request, response) => {
 })
 
 async function createUser(response, request, data) {
-    const checks = await db.addUserToDatabase('gig-mates', 'Users', data)
+    const checks = await newUser.addNewUser(data)
   
     if(checks) {
         request.session.username = data.username
@@ -87,20 +90,21 @@ app.post('/logout', (request, response) => {
 })
 
 app.post('/posts', (request, response) => {
-
-    addNewPost(request.session.username, response.body )
+  
+    
     data = request.body
 
     const newPost  = {
         username: request.session.username,
-        post: data
+        post: data.post
     };
+    addNewPost(newPost)
 
    // db.addDataToDataBase('gig-mates', 'Posts', newPost)
 })
 
 app.get('/recentPosts', (request, response) => {
-    const recentPosts = getPosts(request.session.username, response.body)
+    const recentPosts = getPosts(3)
   
     response.send(recentPosts)
 })
