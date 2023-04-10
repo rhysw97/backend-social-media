@@ -45,7 +45,7 @@ async function getPosts(n=3) {
         .catch(err => {
             console.log('Error:' + err)
         })
-    console.log(data)
+   // console.log(data)
     return data;
 }
 

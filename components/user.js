@@ -21,7 +21,7 @@ class User {
         this.user = model('Users', this.userSchema)
     }
     
-    addNewUser(userData) {
+    async addNewUser(userData) {
         const newUser = {
             email: userData.email,
             username: userData.username,
@@ -37,33 +37,43 @@ class User {
         }
         
         const doesUserExist= {
-            email:  this.checkDataIsInDatabase(newUser.email),
-            username: this.checkDataIsInDatabase(newUser.username)
+            email: await this.checkDataIsInDatabase({email: newUser.email}),
+            username: await this.checkDataIsInDatabase({username: newUser.username})
         }
 
-        const isNewUser = Object.values(doesUserExist).every(value => value=== true)
-        if(isNewUser) {
+        console.log(doesUserExist)
+
+        
+        if(!doesUserExist.email && !doesUserExist.username) {
             this.user.create(newUser)
             .catch(err=>{
                 console.log("Error: "+err)
             })
-            return true
-        } else {
-            return false
         }
+        return doesUserExist;
     }
     
-    checkDataIsInDatabase(data){
-        if(this.user.find(data)) {
+    async checkDataIsInDatabase(data){
+        const isInDatabase = await this.user.findOne(data)
+        console.log('hey', isInDatabase)
+        if(isInDatabase) {
             return true
         } else {
             return false
         }
     }
 
-    login() {
-
+    async checkLoginDetails(data) {
+        const userData = await this.user.findOne({email: data.email})
+        console.log(userData)
+        if(userData) {
+            if(userData.password === data.password) {
+                return {accepted: true, username: userData.username}
+            }
+        }
+        return {accepted: false, username: ''}
     }
+
 
     logout() {
 

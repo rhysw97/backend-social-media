@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors'
-import {Database} from './database.js';
 import session from 'express-session'
 //YGZxR5P9sFV13v8c
 import {addNewPost, getPosts} from './components/post.js'
@@ -51,10 +50,10 @@ app.post('/login', (request, response) => {
 });
 
 async function waitForLoginDetails(data, response, request) {
-    //const login = await db.checkLoginDetails('gig-mates', 'Users', data);
-  
-    if(login) {
-        request.session.username = login.username
+    const loginData = await currentUser.checkLoginDetails(data);
+    
+    if(loginData.accepted) {
+        request.session.username = loginData.username
         response.send(true)
     } else {
         response.send(false)
@@ -91,13 +90,13 @@ app.post('/logout', (request, response) => {
 app.post('/posts', (request, response) => {
   
     
-    data = request.body
+    const data = request.body
 
     const newPost  = {
         username: request.session.username,
         post: data.post
     };
-    addNewPost(newPost)
+   addNewPost(newPost)
 })
 
 app.get('/recentPosts', (request, response) => {
