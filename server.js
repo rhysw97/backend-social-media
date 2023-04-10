@@ -34,8 +34,7 @@ app.use(session({
 import cookieParser from 'cookie-parser'
 app.use(cookieParser())
 
-app.use((request, res, next) => {
-    
+app.use((request, response, next) => {
     next();
 })
 
@@ -84,12 +83,9 @@ async function createUser(response, request, data) {
 
 app.post('/logout', (request, response) => {
     request.session.destroy();
-    currentUser.logout()
 })
 
 app.post('/posts', (request, response) => {
-  
-    
     const data = request.body
 
     const newPost  = {
@@ -107,7 +103,6 @@ app.get('/recentPosts', (request, response) => {
 
 app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
-       
     }
 );
 

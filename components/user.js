@@ -73,12 +73,6 @@ class User {
         }
         return {accepted: false, username: ''}
     }
-
-
-    logout() {
-
-
-    }
 }
 
 export {
