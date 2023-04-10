@@ -1,12 +1,8 @@
 //register
 import Mongoose from 'mongoose'
 const {Schema, model} = Mongoose
-import { UserData } from "../DataTemplate"
-class User { 
 
-    //types
-    userSchema: any
-    user: any
+class User {
    constructor() { 
         this.userSchema=new Schema({
             id: String,
@@ -15,7 +11,7 @@ class User {
             dateOfBirth: String,
             age: Number,
             password: String, 
-            profilePiture: File, 
+            profilePiture: String, 
             about: String,
             genres: Array, 
             interestedGigs: Array, 
@@ -25,7 +21,7 @@ class User {
         this.user = model('Users', this.userSchema)
     }
     
-    addNewUser(userData: UserData ):boolean {
+    addNewUser(userData) {
         const newUser = {
             email: userData.email,
             username: userData.username,
@@ -57,15 +53,24 @@ class User {
         }
     }
     
-    checkDataIsInDatabase(data:any): boolean{
+    checkDataIsInDatabase(data){
         if(this.user.find(data)) {
             return true
         } else {
             return false
         }
     }
+
+    login() {
+
+    }
+
+    logout() {
+
+
+    }
 }
 
-module.exports = {
+export {
     User
 }

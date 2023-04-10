@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors'
-import Database from './database.js';
-import { restart } from 'nodemon';
+import {Database} from './database.js';
 import session from 'express-session'
 //YGZxR5P9sFV13v8c
 import {addNewPost, getPosts} from './components/post.js'
@@ -12,10 +11,9 @@ const currentUser = new User();
 
 mongoose.connect("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
 
-const db = new Database.Database("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
-//const db = new Database.Database(`mongodb+srv://rhysw97:${process.env.DATABASE_PASSWORD}@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority`)
 const app = express();
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config()
 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -34,7 +32,7 @@ app.use(session({
     },
 }))
 
-const cookieParser=require('cookie-parser')
+import cookieParser from 'cookie-parser'
 app.use(cookieParser())
 
 app.use((request, res, next) => {
@@ -53,7 +51,7 @@ app.post('/login', (request, response) => {
 });
 
 async function waitForLoginDetails(data, response, request) {
-    const login = await db.checkLoginDetails('gig-mates', 'Users', data);
+    //const login = await db.checkLoginDetails('gig-mates', 'Users', data);
   
     if(login) {
         request.session.username = login.username
@@ -77,8 +75,8 @@ app.post('/register', (request, response) => {
 })
 
 async function createUser(response, request, data) {
-    const checks = await newUser.addNewUser(data)
-  
+    const checks = await currentUser.addNewUser(data)
+    console.log(checks)
     if(checks) {
         request.session.username = data.username
     }
@@ -87,6 +85,7 @@ async function createUser(response, request, data) {
 
 app.post('/logout', (request, response) => {
     request.session.destroy();
+    currentUser.logout()
 })
 
 app.post('/posts', (request, response) => {
@@ -99,8 +98,6 @@ app.post('/posts', (request, response) => {
         post: data.post
     };
     addNewPost(newPost)
-
-   // db.addDataToDataBase('gig-mates', 'Posts', newPost)
 })
 
 app.get('/recentPosts', (request, response) => {
@@ -111,9 +108,7 @@ app.get('/recentPosts', (request, response) => {
 
 app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
-        db.listDatabases()
-        // db.checkDatabaseForEmail()
-
+       
     }
 );
 
