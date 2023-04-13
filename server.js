@@ -96,10 +96,15 @@ app.post('/posts', (request, response) => {
 })
 
 app.get('/recentPosts', (request, response) => {
-    const recentPosts = getPosts(3)
-  
-    response.send(recentPosts)
+    getRecentPosts(5, response)
+    
 })
+
+async function getRecentPosts(numberOfPosts, response) {
+    const recentPosts = await getPosts(numberOfPosts)
+    console.log('recentPosts', recentPosts)
+    response.send(recentPosts)
+}
 
 app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
