@@ -1,18 +1,22 @@
-import express from 'express';
-import cors from 'cors'
-import session from 'express-session'
+const express = require('express');
+const cors = require('cors')
+const session = require('express-session')
 //YGZxR5P9sFV13v8c
-import {addNewPost, getPosts} from './components/post.js'
-import {User} from './components/user.js'
+const {addNewPost, getPosts} = require('./components/post.js')
+const {User} = require('./components/user.js')
 
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 const currentUser = new User();
 
 mongoose.connect("mongodb+srv://rhysw97:7jv51e8bzb4jg0xP@cluster0.jx0jttw.mongodb.net/?retryWrites=true&w=majority")
 
 const app = express();
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config()
+
+
+//import routes
+const {loginRoute, user} = require('./routes/loginRoute.js')
 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -31,18 +35,23 @@ app.use(session({
     },
 }))
 
-import cookieParser from 'cookie-parser'
+const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
 app.use((request, response, next) => {
     next();
 })
 
+
+
 const port = process.env.PORT
 app.get('/', (request, response) => {
     response.send("Welcome to gig-mates")
 })
-// GET endpoint to retrieve email
+
+//call routes
+user.currentUser = currentUser
+//app.use('/login', loginRoute )
 app.post('/login', (request, response) => {
     const body = request.body
     waitForLoginDetails(body, response, request);
@@ -110,4 +119,5 @@ app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
     }
 );
+
 

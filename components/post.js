@@ -1,5 +1,5 @@
 //view recent posts
-import Mongoose from 'mongoose'
+const Mongoose = require('mongoose')
 const {Schema, model} = Mongoose
 
 const postSchema=new Schema({
@@ -49,7 +49,7 @@ async function getPosts(n=3) {
     return data;
 }
 
-export {
+module.exports = {
     getPosts, 
     addNewPost
 }

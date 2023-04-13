@@ -1,5 +1,5 @@
 //register
-import Mongoose from 'mongoose'
+const Mongoose = require('mongoose')
 const {Schema, model} = Mongoose
 
 class User {
@@ -75,6 +75,6 @@ class User {
     }
 }
 
-export {
+module.exports = {
     User
 }
