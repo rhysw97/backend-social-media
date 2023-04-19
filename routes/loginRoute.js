@@ -1,17 +1,18 @@
 const express = require("express")
 const router = express.Router()
-const {User} = require('./../components/user')
-let user = { currentUser : ''}
 
 
-// GET endpoint to retrieve email
+
+
+//app.use('/login', loginRoute )
 router.post('/', (request, response) => {
     const body = request.body
     waitForLoginDetails(body, response, request);
 });
 
 async function waitForLoginDetails(data, response, request) {
-    const loginData = await user.currentUser.checkLoginDetails(data);
+    const currentUser = request.app.locals.user 
+    const loginData = await currentUser.checkLoginDetails(data);
     
     if(loginData.accepted) {
         request.session.username = loginData.username
@@ -23,7 +24,8 @@ async function waitForLoginDetails(data, response, request) {
     console.log('name', request.session.username)
 }
 
-module.exports = {
-    router,
-    user
-}
+router.post('/logout', (request, response) => {
+    request.session.destroy();
+})
+
+module.exports = router
