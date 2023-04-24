@@ -8,6 +8,7 @@ router.post('/', (request, response) => {
 })
 
 async function createUser(response, request, data) {
+    const currentUser = request.app.locals.user 
     const checks = await currentUser.addNewUser(data)
     console.log(checks)
     if(checks) {
