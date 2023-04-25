@@ -17,6 +17,11 @@ router.get('/recentPosts', (request, response) => {
     
 })
 
+router.post('/addLikesToPost', (request, response) => {
+   updateLikes(request.body)
+    
+})
+
 async function getRecentPosts(numberOfPosts, response) {
     const recentPosts = await getPosts(numberOfPosts)
   //  console.log('recentPosts', recentPosts)
