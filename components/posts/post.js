@@ -45,7 +45,7 @@ async function getPosts(n=3) {
         .catch(err => {
             console.log('Error:' + err)
         })
-   // console.log(data)
+    
     return data;
 }
 
@@ -63,15 +63,11 @@ async function getPost(postid){
 }
 
 async function likePost(likedPostID, likedByUser){
-    let found
     await Post.findByIdAndUpdate(likedPostID,{$inc: {likes: 1}}).exec()
         .then(foundData=>found=foundData)
-    // console.log(found)
 }
 
 async function commentOnPost(commentedPostID, commentByUser, comment){
-    // await Post.findByIdAndUpdate(likedPostID,{$inc: { likes: 1 }})
-    let found
     let newComment={
         user: commentByUser,
         message: comment,
@@ -79,7 +75,6 @@ async function commentOnPost(commentedPostID, commentByUser, comment){
     }
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
         .then(foundData=>found=foundData)
-    // console.log(found)
 }
 
 module.exports = {
