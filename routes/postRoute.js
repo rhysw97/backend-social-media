@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {addNewPost, getPosts} = require('../components/post')
+const {addNewPost, getPosts} = require('../components/posts/post')
 
 router.post('/', (request, response) => {
     const data = request.body

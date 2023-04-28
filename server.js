@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const session = require('express-session')
 //YGZxR5P9sFV13v8c
-const {addNewPost, getPosts} = require('./components/post.js')
+const {addNewPost, getPosts} = require('./components/posts/post.js')
 const {User} = require('./components/user.js')
 
 

@@ -49,7 +49,43 @@ async function getPosts(n=3) {
     return data;
 }
 
+async function getPost(postid){
+    let data=null;
+    await Post.findById(postid)
+        .exec()
+        .then(mongoData=>{
+            data=mongoData;
+        })
+        .catch(err=>{
+            console.log('Error:'+err)
+        });
+    return data;
+}
+
+async function likePost(likedPostID, likedByUser){
+    let found
+    await Post.findByIdAndUpdate(likedPostID,{$inc: {likes: 1}}).exec()
+        .then(foundData=>found=foundData)
+    // console.log(found)
+}
+
+async function commentOnPost(commentedPostID, commentByUser, comment){
+    // await Post.findByIdAndUpdate(likedPostID,{$inc: { likes: 1 }})
+    let found
+    let newComment={
+        user: commentByUser,
+        message: comment,
+        likes: 0
+    }
+    await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
+        .then(foundData=>found=foundData)
+    // console.log(found)
+}
+
 module.exports = {
-    getPosts, 
-    addNewPost
+    addNewPost,
+    getPosts,
+    getPost,
+    likePost,
+    commentOnPost
 }
