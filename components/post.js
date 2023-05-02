@@ -7,7 +7,7 @@ const postSchema=new Schema({
     message: String,
     likes: Number,
     time: Date,
-    likedByUsers: [String],
+    likedBy: [String],
     tags: [String],
     comments: [
         {
@@ -24,7 +24,9 @@ function addNewPost(postData) {
         postedBy: postData.username,
         message: postData.post,
         likes: 0,
-        time: Date.now()
+        time: Date.now(),
+        likedBy: [],
+        comments: []
     }
 
     console.log(myPost)
