@@ -18,7 +18,6 @@ router.get('/recentPosts', (request, response) => {
 })
 
 router.post('/likePost', (request, response) => {
-   console.log(request.body)
     likePost(request.body.postId, request.session.username)
 })
 
