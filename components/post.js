@@ -7,6 +7,7 @@ const postSchema=new Schema({
     message: String,
     likes: Number,
     time: Date,
+    likedByUsers: [String],
     tags: [String],
     comments: [
         {
@@ -63,8 +64,16 @@ async function getPost(postid){
 }
 
 async function likePost(likedPostID, likedByUser){
-    await Post.findByIdAndUpdate(likedPostID,{$inc: {likes: 1}}).exec()
-        .then(foundData=>found=foundData)
+    console.log(likedPostID,likedByUser)
+    await Post.findByIdAndUpdate(likedPostID, {
+        $inc:{likes: 1},
+        $push:{likedByUsers: likedByUser}
+    }).exec()
+        .then(foundData=>{
+            
+            found=foundData
+            console.log(found)
+        })
 }
 
 async function commentOnPost(commentedPostID, commentByUser, comment){
