@@ -69,7 +69,20 @@ async function likePost(likedPostID, likedByUser){
     console.log('post',likedPostID,likedByUser)
     await Post.findByIdAndUpdate(likedPostID, {
         $inc:{likes: 1},
-        $push:{likedByUsers: likedByUser}
+        $push:{likedBy: likedByUser}
+    }).exec()
+        .then(foundData=>{
+            
+            found=foundData
+            console.log(found)
+        })
+}
+
+async function unlikePost(likedPostID, likedByUser){
+    console.log('post',likedPostID,likedByUser)
+    await Post.findByIdAndUpdate(likedPostID, {
+        $inc:{likes: -1},
+        $pull:{likedBy: likedByUser}
     }).exec()
         .then(foundData=>{
             
@@ -93,5 +106,6 @@ module.exports = {
     getPosts,
     getPost,
     likePost,
+    unlikePost,
     commentOnPost
 }
