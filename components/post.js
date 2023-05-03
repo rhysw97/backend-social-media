@@ -66,7 +66,7 @@ async function getPost(postid){
 }
 
 async function likePost(likedPostID, likedByUser){
-    console.log(likedPostID,likedByUser)
+    console.log('post',likedPostID,likedByUser)
     await Post.findByIdAndUpdate(likedPostID, {
         $inc:{likes: 1},
         $push:{likedByUsers: likedByUser}
