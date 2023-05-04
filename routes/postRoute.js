@@ -34,6 +34,7 @@ async function getRecentPosts(numberOfPosts, response) {
 }
 
 router.post('/comment', (request, response) => {
+    console.log(request.body)
     commentOnPost(request.body.id, request.session.username, request.body.content)
 })
 
