@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {addNewPost, getPosts, likePost, unlikePost} = require('../components/post')
+const {addNewPost, getPosts, likePost, unlikePost, commentOnPost} = require('../components/post')
 
 router.post('/', (request, response) => {
     const data = request.body
@@ -32,5 +32,9 @@ async function getRecentPosts(numberOfPosts, response) {
   //  console.log('recentPosts', recentPosts)
     response.send(recentPosts)
 }
+
+router.post('/comment', (request, response) => {
+    commentOnPost(request.body.id, request.session.username, request.body.content)
+})
 
 module.exports = router
