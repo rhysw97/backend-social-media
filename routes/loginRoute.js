@@ -16,9 +16,12 @@ async function waitForLoginDetails(data, response, request) {
     
     if(loginData.accepted) {
         request.session.username = loginData.username
-        response.send(true)
+        response.send({
+            username: request.session.username,
+            loggedin: true
+        })
     } else {
-        response.send(false)
+        response.send({loggedin:false})
     }  
 
     console.log('name', request.session.username)

@@ -97,8 +97,12 @@ async function commentOnPost(commentedPostID, commentByUser, comment){
         message: comment,
         likes: 0
     }
+    console.log('new Comment',commentedPostID, newComment)
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
-        .then(foundData=>found=foundData)
+        .then(foundData=>{
+            console.log('found', foundData)
+            found=foundData
+        })
 }
 
 module.exports = {
