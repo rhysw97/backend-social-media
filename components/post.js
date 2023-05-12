@@ -12,8 +12,9 @@ const postSchema=new Schema({
     comments: [
         {
             commentBy: String,
-            comment: String,
-            time: Date
+            message: String,
+            time: Date,
+            likes: Number,
         }
     ]
 })
@@ -92,17 +93,31 @@ async function unlikePost(likedPostID, likedByUser){
 }
 
 async function commentOnPost(commentedPostID, commentByUser, comment){
+    let found;
     let newComment={
         user: commentByUser,
         message: comment,
-        likes: 0
+        likes: 0,
+        time: Date.now()
     }
-    console.log('new Comment',commentedPostID, newComment)
+    
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
-        .then(foundData=>{
-            console.log('found', foundData)
-            found=foundData
+        .then(foundData=>found=foundData)
+}
+
+async function viewComments(postid){
+    let data=null;
+    console.log('postid', postid)
+    await Post.find({id: postid})
+        .exec()
+        .then(mongoData=>{
+            data=mongoData;
         })
+        .catch(err=>{
+            console.log('Error:'+err)
+        });
+    console.log('yo', data.comments);
+    return data.comments;
 }
 
 module.exports = {
@@ -111,5 +126,6 @@ module.exports = {
     getPost,
     likePost,
     unlikePost,
-    commentOnPost
+    commentOnPost,
+    viewComments
 }

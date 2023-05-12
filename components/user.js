@@ -73,6 +73,10 @@ class User {
         }
         return {accepted: false, username: ''}
     }
+
+    async updateProfileData() {
+        
+    }
 }
 
 module.exports = {
