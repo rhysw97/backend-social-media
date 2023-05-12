@@ -74,9 +74,24 @@ class User {
         return {accepted: false, username: ''}
     }
 
-    async updateProfileData() {
-        
+    async updateProfileData(data) {
+        const userData = await this.user.findOne({username: data.username})
+        if(userData) {
+            userData.profilePiture = data.profilePiture.filename
+            userData.about = data.about
+            userData.genres = data.genres
+            userData.interestedGigs = data.interestedGigs
+            userData.save()
+        }
     }
+
+    async getProfileData(data, response) {
+        const userData = await this.user.findOne({username: data.username})
+        if(userData) {
+            response.send(userData)
+        }
+    }
+
 }
 
 module.exports = {
