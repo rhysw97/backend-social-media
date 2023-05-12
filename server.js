@@ -22,7 +22,7 @@ const loginRoute = require('./routes/loginRoute')
 const postRoute = require('./routes/postRoute')
 const registerRoute = require('./routes/registerRoute')
 //const {userRoute} = require('./routes/userRoute')
-
+const profileRoute = require('./routes/profileRoute')
 //cors set up to allow front end access
 app.use(cors({
     origin: "http://localhost:3000",
@@ -56,6 +56,7 @@ app.use((request, response, next) => {
 app.use('/posts', postRoute)
 app.use('/login', loginRoute)
 app.use('/register', registerRoute)
+app.use('/profile', profileRoute)
 //app.use('/user', userRoute)*/
 
 
