@@ -34,8 +34,8 @@ router.post('/edit', upload.single('profilePicture'), (request, response) => {
       genres: request.body.genres
     }
   
-    app.locals.user.updateProfile(data)
-  })
+    request.app.locals.user.updateProfile(data, response)
+})
 
 router.get('/get-profile', (request, response)=>{
     console.log('request')

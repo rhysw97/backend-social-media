@@ -74,7 +74,7 @@ class User {
         return {accepted: false, username: ''}
     }
 
-    async updateProfileData(data) {
+    async updateProfile(data) {
         const userData = await this.user.findOne({username: data.username})
         if(userData) {
             userData.profilePiture = data.profilePiture.filename
