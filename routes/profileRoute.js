@@ -52,9 +52,4 @@ router.get('/get-profile', (request, response)=>{
     app.locals.user.getProfileData(request.session.username, response)
 })
 
-router.get('/' , (request, response) => {
-    response.send('hi')
-})
-
-
 module.exports = router
