@@ -31,8 +31,6 @@ const storage = multer.diskStorage({
 })*/
 
 router.post('/edit', multer({ storage }).single('file'), (request, response) => {
-    console.log(request.file)
-    console.log('name',request.body)
   
     const data = {
       username: request.session.username,

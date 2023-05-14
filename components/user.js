@@ -75,13 +75,15 @@ class User {
     }
 
     async updateProfile(data) {
+       
         const userData = await this.user.findOne({username: data.username})
         if(userData) {
-            userData.profilePiture = data.profilePiture.filename
+            userData.profilePicture = data.profilePiture
             userData.about = data.about
             userData.genres = data.genres
             userData.interestedGigs = data.interestedGigs
             userData.save()
+          
         }
     }
 
