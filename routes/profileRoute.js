@@ -1,8 +1,15 @@
 const express = require("express")
 const router = express.Router()
+const path = require('path')
 
 const multer = require('multer')
-const upload = multer({dest: 'uploads/'})
+const storage = multer.diskStorage({
+    destination: './uploads',
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      cb(null, `${Date.now()}${ext}`);
+    },
+  });
 
 /*router.post('/edit', upload.single('profilePicture'), (request, response) => {
     const image = request.body.image
@@ -23,19 +30,22 @@ const upload = multer({dest: 'uploads/'})
     app.locals.user.updateProfile(data)
 })*/
 
-router.post('/edit', upload.single('profilePicture'), (request, response) => {
-    console.log(request.body)
+router.post('/edit', multer({ storage }).single('file'), (request, response) => {
+    console.log(request.file)
+    console.log('name',request.body)
   
     const data = {
       username: request.session.username,
       name: request.body.name,
       bio: request.body.bio,
-      profilePicture: '',
-      genres: request.body.genres
+      profilePicture: request.file.filename,
+      genres: request.body.genres.split(',')
     }
   
-    request.app.locals.user.updateProfile(data, response)
+   request.app.locals.user.updateProfile(data, response)
 })
+  
+  // Start the server.
 
 router.get('/get-profile', (request, response)=>{
     console.log('request')

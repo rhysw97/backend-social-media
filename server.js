@@ -1,9 +1,13 @@
 const express = require('express');
 const cors = require('cors')
 const session = require('express-session')
+const path = require('path')
 //YGZxR5P9sFV13v8c
 const {addNewPost, getPosts} = require('./components/post.js')
 const {User} = require('./components/user.js')
+const multer = require('multer')
+
+
 
 
 
@@ -65,8 +69,6 @@ const port = process.env.PORT
 app.get('/', (request, response) => {
     response.send("Welcome to gig-mates")
 })
-
-
 
 app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
