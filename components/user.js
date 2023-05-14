@@ -88,7 +88,9 @@ class User {
     }
 
     async getProfileData(data, response) {
-        const userData = await this.user.findOne({username: data.username})
+       
+        const userData = await this.user.findOne({username: data})
+        console.log(userData)
         if(userData) {
             response.send(userData)
         }

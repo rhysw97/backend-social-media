@@ -39,15 +39,14 @@ router.post('/edit', multer({ storage }).single('file'), (request, response) => 
       profilePicture: request.file.filename,
       genres: request.body.genres.split(',')
     }
-  
+    console.log('data', data)
    request.app.locals.user.updateProfile(data, response)
 })
   
   // Start the server.
 
 router.get('/get-profile', (request, response)=>{
-    console.log('request')
-    app.locals.user.getProfileData(request.session.username, response)
+    request.app.locals.user.getProfileData(request.session.username, response)
 })
 
 module.exports = router
