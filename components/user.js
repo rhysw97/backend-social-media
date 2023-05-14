@@ -11,7 +11,7 @@ class User {
             dateOfBirth: String,
             age: Number,
             password: String, 
-            profilePiture: String, 
+            profilePicture: String, 
             about: String,
             genres: Array, 
             interestedGigs: Array, 
@@ -82,7 +82,11 @@ class User {
             userData.about = data.about
             userData.genres = data.genres
             userData.interestedGigs = data.interestedGigs
+
+            console.log('profile',data.profilePicture)
+            
             userData.save()
+            console.log('user',userData.profilePicture)
           
         }
     }
