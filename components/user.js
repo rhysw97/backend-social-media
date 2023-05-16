@@ -28,7 +28,7 @@ class User {
             dateOfBirth: userData.dateOfBirth,
             age: userData.age,
             password: userData.password, 
-            profilePiture: '', 
+            profilePicture: '', 
             about: '',
             genres: [], 
             interestedGigs: [], 
