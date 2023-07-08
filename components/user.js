@@ -18,7 +18,7 @@ class User {
             postHistory: Array,
             friendslist: Array
         })
-        this.user = model('Users', this.userSchema)
+        this.user = model('users', this.userSchema)
     }
     
     async addNewUser(userData) {
@@ -78,7 +78,7 @@ class User {
        
         const userData = await this.user.findOne({username: data.username})
         if(userData) {
-            userData.profilePicture = data.profilePiture
+            userData.profilePicture = data.profilePicture
             userData.about = data.about
             userData.genres = data.genres
             userData.interestedGigs = data.interestedGigs

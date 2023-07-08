@@ -46,7 +46,7 @@ router.post('/edit', multer({ storage }).single('file'), (request, response) => 
   // Start the server.
 
 router.get('/get-profile', (request, response)=>{
-    request.app.locals.user.getProfileData(request.session.username, response)
+  request.app.locals.user.getProfileData(request.session.username, response)
 })
 
 module.exports = router

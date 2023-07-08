@@ -7,10 +7,6 @@ const {addNewPost, getPosts} = require('./components/post.js')
 const {User} = require('./components/user.js')
 const multer = require('multer')
 
-
-
-
-
 const mongoose = require('mongoose')
 const currentUser = new User()
 
@@ -54,6 +50,7 @@ app.use((request, response, next) => {
     next();
 })
 
+app.use(express.static(path.join(__dirname, 'uploads')))
 
 //calling routes
 
