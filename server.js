@@ -50,7 +50,8 @@ app.use((request, response, next) => {
     next();
 })
 
-app.use(express.static(path.join(__dirname, 'uploads')))
+//sets public as root directory 
+app.use(express.static(path.join(__dirname, 'public')))
 
 //calling routes
 
