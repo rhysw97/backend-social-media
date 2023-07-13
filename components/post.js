@@ -108,7 +108,7 @@ async function commentOnPost(commentedPostID, commentByUser, comment){
 async function viewComments(postid){
     let data=null;
     console.log('postid', postid)
-    await Post.find({id: postid})
+    await Post.findById(postid)
         .exec()
         .then(mongoData=>{
             data=mongoData;
@@ -116,8 +116,8 @@ async function viewComments(postid){
         .catch(err=>{
             console.log('Error:'+err)
         });
-    console.log('yo', data.comments);
-    return data.comments;
+    console.log('yo', data);
+    return data;
 }
 
 module.exports = {
