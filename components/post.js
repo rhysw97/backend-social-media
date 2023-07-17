@@ -94,6 +94,7 @@ async function unlikePost(likedPostID, likedByUser){
 
 async function commentOnPost(commentedPostID, commentByUser, comment){
     let found;
+    console.log(commentByUser)
     let newComment={
         user: commentByUser,
         message: comment,
