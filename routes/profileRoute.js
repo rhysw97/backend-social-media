@@ -16,7 +16,7 @@ router.post('/edit', multer({ storage }).single('file'), (request, response) => 
   const data = {
     username: request.session.username,
     name: request.body.name,
-    bio: request.body.bio,
+    about: request.body.bio,
     profilePicture: request.file.filename,
     genres: request.body.genres.split(',')
   }
