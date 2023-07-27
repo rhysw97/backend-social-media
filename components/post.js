@@ -11,6 +11,7 @@ const postSchema=new Schema({
     tags: [String],
     comments: [
         {
+            user: String,
             commentBy: String,
             message: String,
             time: Date,
@@ -93,6 +94,7 @@ async function unlikePost(likedPostID, likedByUser){
 }
 
 async function commentOnPost(commentedPostID, commentByUser, comment){
+    console.log("COMMENT!!!!!!")
     let found;
     console.log(commentByUser)
     let newComment={
@@ -101,6 +103,7 @@ async function commentOnPost(commentedPostID, commentByUser, comment){
         likes: 0,
         time: Date.now()
     }
+    console.log(newComment.user)
     
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
         .then(foundData=>found=foundData)
