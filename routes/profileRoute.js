@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const path = require('path')
+const user = request.app.locals.user
 
 const multer = require('multer')
 const storage = multer.diskStorage({
@@ -22,13 +23,28 @@ router.post('/edit', multer({ storage }).single('file'), (request, response) => 
   }
 
   console.log('data', data)
-  request.app.locals.user.updateProfile(data, response)
+  user.updateProfile(data, response)
 })
   
   // Start the server.
 
-router.get('/get-profile', (request, response)=>{
-  request.app.locals.user.getProfileData(request.session.username, response)
+//route for getting current users profile data 
+router.get('/get-profile/:username', (request, response) => {
+  if(request.username) {
+    user.getProfileData(request.username, response)
+  } else {
+    user.getProfileData(request.session.username, response)
+  }
+
 })
+
+//route for getting a users profile picture (contains url param for name)
+router.get('/profile-pic/:username', (request, repsonse) => {
+  if(res.username) {
+    user.getProfilePicture(res.username, response)
+  } else {
+    user.getProfilePicture(request.session.username, repsonse)
+  }
+}), 
 
 module.exports = router

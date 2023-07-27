@@ -91,16 +91,25 @@ class User {
         }
     }
 
-    async getProfileData(data, response) {
+    async getProfileData(username, response) {
        
-        const userData = await this.user.findOne({username: data})
+        const userData = await this.user.findOne({username: username})
         console.log(userData)
         if(userData) {
             response.send(userData)
         }
     }
 
+    async getProfilePic(username, response) {
+        const profilePicture = await this.user.findOne({username: data}).profilePicture
+        if(profilePicture) {
+            response.send(profilePicture)
+        }
+    }
+
 }
+
+
 
 module.exports = {
     User
