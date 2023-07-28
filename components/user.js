@@ -100,10 +100,10 @@ class User {
         }
     }
 
-    async getProfilePic(username, response) {
-        const profilePicture = await this.user.findOne({username: data}).profilePicture
-        if(profilePicture) {
-            response.send(profilePicture)
+    async getProfilePicture(username, response) {
+        const userData = await this.user.findOne({username: username})
+        if(userData) {
+            response.send(userData.profilePicture)
         }
     }
 

@@ -1,9 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const path = require('path')
-const user = request.app.locals.user
-
 const multer = require('multer')
+
 const storage = multer.diskStorage({
     destination: './public/uploads',
     filename: (req, file, cb) => {
@@ -23,27 +22,28 @@ router.post('/edit', multer({ storage }).single('file'), (request, response) => 
   }
 
   console.log('data', data)
-  user.updateProfile(data, response)
+  request.app.locals.user.updateProfile(data, response)
 })
   
   // Start the server.
 
 //route for getting current users profile data 
-router.get('/get-profile/:username', (request, response) => {
-  if(request.username) {
-    user.getProfileData(request.username, response)
+router.get('/get-profile', (request, response) => {
+  if(request.query.username) {
+    request.app.locals.user.getProfileData(request.query.username, response)
   } else {
-    user.getProfileData(request.session.username, response)
+    request.app.locals.user.getProfileData(request.session.username, response)
   }
 
 })
 
 //route for getting a users profile picture (contains url param for name)
-router.get('/profile-pic/:username', (request, repsonse) => {
-  if(res.username) {
-    user.getProfilePicture(res.username, response)
+router.get('/profile-pic', (request, response) => {
+  console.log(request.query.username)
+  if(request.query.username) {
+    request.app.locals.user.getProfilePicture(request.query.username, response)
   } else {
-    user.getProfilePicture(request.session.username, repsonse)
+    request.app.locals.user.getProfilePicture(request.session.username, response)
   }
 }), 
 
