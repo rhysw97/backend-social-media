@@ -25,13 +25,16 @@ const postSchema=new Schema({
 })
 
 const Post = model('Posts', postSchema)
-function addNewPost(postData) {
+
+async function addNewPost(postData) {
+   // const pic = await request.app.locals.user.returnProfilePicture(postData.username)
     let myPost = {
         postedBy: postData.username,
         message: postData.post,
         likes: 0,
         time: Date.now(),
         likedBy: [],
+       // profilePicture: pic,
         comments: []
     }
 

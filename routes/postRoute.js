@@ -29,7 +29,7 @@ router.post('/unlikePost', (request, response) => {
 
 async function getRecentPosts(numberOfPosts, response) {
     const recentPosts = await getPosts(numberOfPosts)
-  //  console.log('recentPosts', recentPosts)
+    console.log('recentPosts', recentPosts)
     response.send(recentPosts)
 }
 
