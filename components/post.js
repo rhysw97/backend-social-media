@@ -4,6 +4,7 @@ const { request } = require('http')
 const Mongoose = require('mongoose')
 const {Schema, model} = Mongoose
 
+//creates new schema for posts to set out the data we want to store and what type it will be
 const postSchema=new Schema({
     postedBy: String,
     message: String,
@@ -24,6 +25,7 @@ const postSchema=new Schema({
     ]
 })
 
+//creates a model of the post Schema and calls it posts
 const Post = model('Posts', postSchema)
 
 async function addNewPost(postData) {
@@ -112,8 +114,6 @@ async function commentOnPost(commentedPostID, commentByUser, comment, request){
         time: Date.now(),
         profilePicture: pic,
     }
-
-
     
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
         .then(foundData=>found=foundData)
