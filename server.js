@@ -16,8 +16,6 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config()
 
-const jwt = require('jsonwebtoken')
-
 app.locals.user = currentUser;
 //import routes
 const loginRoute = require('./routes/loginRoute')
@@ -57,25 +55,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //calling routes
 
-app.use('/posts', authenticateToken, postRoute)
+app.use('/posts', postRoute)
 app.use('/login', loginRoute)
-app.use('/register', authenticateToken, registerRoute)
-app.use('/profile', authenticateToken, profileRoute)
+app.use('/register', registerRoute)
+app.use('/profile', profileRoute)
 //app.use('/user', userRoute)*/
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    console.log(token)
-    if(token == null) return res.sendStatus(401)
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403)
-
-        req.user = user
-        next()
-    })
-}
 
 
 const port = process.env.PORT
