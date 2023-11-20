@@ -17,7 +17,7 @@ async function waitForLoginDetails(data, response, request) {
     if(loginData.accepted) {
         const accessToken = jwt.sign({name: currentUser.username}, process.env.JWT_SECRET)
 
-        const refreshToken = jwt.sign({name: currentUser.username}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'})
+        const refreshToken = jwt.sign({name: currentUser.username}, {expiresIn: '1d'})
         
         request.session.username = loginData.username
         response.cookie('jwt', refreshToken, {
