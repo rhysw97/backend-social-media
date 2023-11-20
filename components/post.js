@@ -1,6 +1,4 @@
 //view recent posts
-const { appendFile } = require('fs')
-const { request } = require('http')
 const Mongoose = require('mongoose')
 const {Schema, model} = Mongoose
 
@@ -19,8 +17,6 @@ const postSchema=new Schema({
             message: String,
             time: Date,
             likes: Number,
-            profilePicture: String,
-            likedBy: [String],
         }
     ]
 })
@@ -77,7 +73,7 @@ async function getPost(postid){
 }
 
 async function likePost(likedPostID, likedByUser){
-
+    console.log('post',likedPostID,likedByUser)
     await Post.findByIdAndUpdate(likedPostID, {
         $inc:{likes: 1},
         $push:{likedBy: likedByUser}
@@ -90,7 +86,7 @@ async function likePost(likedPostID, likedByUser){
 }
 
 async function unlikePost(likedPostID, likedByUser){
-
+    console.log('post',likedPostID,likedByUser)
     await Post.findByIdAndUpdate(likedPostID, {
         $inc:{likes: -1},
         $pull:{likedBy: likedByUser}
@@ -102,18 +98,18 @@ async function unlikePost(likedPostID, likedByUser){
         })
 }
 
-async function commentOnPost(commentedPostID, commentByUser, comment, request){
+async function commentOnPost(commentedPostID, commentByUser, comment){
     console.log("COMMENT!!!!!!")
     let found;
-    const pic = await request.app.locals.user.returnProfilePicture(commentByUser)
-    console.log('Me', pic)
+    console.log(commentByUser)
     let newComment={
         user: commentByUser,
         message: comment,
         likes: 0,
-        time: Date.now(),
-        profilePicture: pic,
+        time: Date.now()
     }
+
+
     
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
         .then(foundData=>found=foundData)
@@ -130,6 +126,7 @@ async function viewComments(postid){
         .catch(err=>{
             console.log('Error:'+err)
         });
+    console.log('yo', data);
     return data;
 }
 
