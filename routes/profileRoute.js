@@ -40,10 +40,11 @@ router.get('/get-profile', (request, response) => {
 //route for getting a users profile picture (contains url param for name)
 router.get('/profile-pic', (request, response) => {
   console.log(request.query.username)
+  let profilePicture
   if(request.query.username) {
-    request.app.locals.user.getProfilePicture(request.query.username, response)
+    profilePicture = request.app.locals.user.getProfilePicture(request.query.username, response)
   } else {
-    request.app.locals.user.getProfilePicture(request.session.username, response)
+    profilePicture = request.app.locals.user.getProfilePicture(request.session.username, response)
   }
 }), 
 
