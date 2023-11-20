@@ -23,7 +23,7 @@ app.locals.user = currentUser;
 const loginRoute = require('./routes/loginRoute')
 const postRoute = require('./routes/postRoute')
 const registerRoute = require('./routes/registerRoute')
-//const {userRoute} = require('./routes/userRoute')
+
 const profileRoute = require('./routes/profileRoute')
 //cors set up to allow front end access
 app.use(cors({
