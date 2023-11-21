@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {addNewPost, getPosts, likePost, unlikePost, commentOnPost, viewComments} = require('../components/post')
+const {addNewPost, getPosts, likePost, unlikePost, commentOnPost, viewComments, editPost} = require('../components/post')
 
 router.post('/', (request, response) => {
     const data = request.body
@@ -25,6 +25,15 @@ router.post('/likePost', (request, response) => {
 router.post('/unlikePost', (request, response) => {
     console.table(request.body)
     unlikePost(request.body.postId, request.session.username)
+})
+
+router.post('/updatePost', (request, response) => {
+    editPost(request.body.postId, request.body.content, request.session.username)
+})
+
+router.delete('/deletePost', (request, response) => {
+    const postID = request.body.postId
+    
 })
 
 async function getRecentPosts(numberOfPosts, response) {

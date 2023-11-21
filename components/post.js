@@ -116,10 +116,10 @@ async function commentOnPost(commentedPostID, commentByUser, comment, request){
         .then(foundData=>found=foundData)
 }
 
-async function viewComments(postid){
+async function viewComments(postId){
     let data=null;
-    console.log('postid', postid)
-    await Post.findById(postid)
+    console.log('postid', postId)
+    await Post.findById(postId)
         .exec()
         .then(mongoData=>{
             data=mongoData;
@@ -130,6 +130,36 @@ async function viewComments(postid){
     return data;
 }
 
+async function editPost(postId, content, currentUser) { 
+    if(await checkUserIsPoster(postId, currentUser)) {
+        await Post.findByIdAndUpdate(postId, {content: content}, (err, docs) => {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                console.log("updated post: ", docs)
+            }
+        })
+        .then(data=> {
+            console.log(data)
+            //do stuff in here
+        })
+    }   
+    
+}
+
+//function to check that a user 
+async function checkUserIsPoster(postId, currentUser) {
+    const posterName = await Post.findById(postId).username
+    posterName === currentUser? true : false
+}
+
+async function deletePost(postId, currentUser) {
+    if(await checkUserIsPoster(postId, currentUser)) {
+        await Post.findByIdAndDelete(postId)
+    }
+}
+
 module.exports = {
     addNewPost,
     getPosts,
@@ -137,5 +167,7 @@ module.exports = {
     likePost,
     unlikePost,
     commentOnPost,
-    viewComments
+    viewComments,
+    editPost,
+    deletePost
 }
