@@ -3,7 +3,6 @@ const router = express.Router()
 
 router.post('/', (request, response) => {
     const body = request.body
- 
     createUser(response, request, body)
 })
 

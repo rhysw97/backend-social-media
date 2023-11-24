@@ -41,9 +41,6 @@ class User {
             username: await this.checkDataIsInDatabase({username: newUser.username})
         }
 
-        console.log(doesUserExist)
-
-        
         if(!doesUserExist.email && !doesUserExist.username) {
             this.user.create(newUser)
             .catch(err=>{
@@ -65,7 +62,6 @@ class User {
 
     async checkLoginDetails(data) {
         const userData = await this.user.findOne({email: data.email})
-        console.log(userData)
         if(userData) {
             if(userData.password === data.password) {
                 return {accepted: true, username: userData.username}
@@ -82,17 +78,11 @@ class User {
             userData.about = data.about
             userData.genres = data.genres
             userData.interestedGigs = data.interestedGigs
-
-            console.log('profile',data.profilePicture)
-            
             userData.save()
-            console.log('user',userData.profilePicture)
-          
         }
     }
 
     async getProfileData(username, response) {
-       
         const userData = await this.user.findOne({username: username})
         console.log(userData)
         if(userData) {
@@ -115,8 +105,6 @@ class User {
     }
 
 }
-
-
 
 module.exports = {
     User

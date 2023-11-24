@@ -1,9 +1,6 @@
 const express = require("express")
 const router = express.Router()
 
-
-
-
 //app.use('/login', loginRoute )
 router.post('/', (request, response) => {
     const body = request.body

@@ -54,7 +54,6 @@ async function getPosts(n=3) {
         .catch(err => {
             console.log('Error:' + err)
         })
-    
     return data;
 }
 
@@ -72,7 +71,6 @@ async function getPost(postid){
 }
 
 async function likePost(likedPostID, likedByUser){
-
     await Post.findByIdAndUpdate(likedPostID, {
         $inc:{likes: 1},
         $push:{likedBy: likedByUser}
@@ -85,7 +83,6 @@ async function likePost(likedPostID, likedByUser){
 }
 
 async function unlikePost(likedPostID, likedByUser){
-
     await Post.findByIdAndUpdate(likedPostID, {
         $inc:{likes: -1},
         $pull:{likedBy: likedByUser}
@@ -110,8 +107,6 @@ async function commentOnPost(commentedPostID, commentByUser, comment, request){
         profilePicture: pic,
     }
 
-
-    
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
         .then(foundData=>found=foundData)
 }
@@ -130,7 +125,7 @@ async function viewComments(postId){
     return data;
 }
 
-async function editPost(postId, content, currentUser) { 
+async function editPost(postId, content, currentUser, response) { 
     if(await checkUserIsPoster(postId, currentUser)) {
         await Post.findByIdAndUpdate(postId, {content: content}, (err, docs) => {
             if(err) {
@@ -144,19 +139,39 @@ async function editPost(postId, content, currentUser) {
             console.log(data)
             //do stuff in here
         })
+    } else {
+        response.sendStatus(403)
     }   
-    
 }
 
 //function to check that a user 
 async function checkUserIsPoster(postId, currentUser) {
-    const posterName = await Post.findById(postId).username
-    posterName === currentUser? true : false
+    let result 
+    let data
+    await Post.findById(postId)
+        .exec()
+        .then(mongoData=>{
+            data=mongoData;
+            console.log(data.postedBy)
+            result = data.postedBy === currentUser? true : false
+            console.log('Result', result)
+            
+        })
+        .catch(err=>{
+            console.log('Error:'+err)
+            result = 400
+        });
+    return result
 }
 
-async function deletePost(postId, currentUser) {
-    if(await checkUserIsPoster(postId, currentUser)) {
+async function deletePost(postId, currentUser, response) {
+    const isUserPoster = await checkUserIsPoster(postId, currentUser) 
+    if(isUserPoster === true) {
         await Post.findByIdAndDelete(postId)
+    } else if (isUserPoster === false) {
+        response.sendStatus(403)
+    } else {
+        response.sendStatus(isUserPoster)
     }
 }
 
