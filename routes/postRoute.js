@@ -28,6 +28,7 @@ router.post('/unlikePost', (request, response) => {
 })
 
 router.post('/updatePost', (request, response) => {
+    console.log(request.body)
     editPost(request.body.postId, request.body.content, request.session.username, response)
 })
 

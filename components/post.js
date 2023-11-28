@@ -1,6 +1,4 @@
 //view recent posts
-const { appendFile } = require('fs')
-const { request } = require('http')
 const Mongoose = require('mongoose')
 const {Schema, model} = Mongoose
 
@@ -76,7 +74,6 @@ async function likePost(likedPostID, likedByUser){
         $push:{likedBy: likedByUser}
     }).exec()
         .then(foundData=>{
-            
             found=foundData
             console.log(found)
         })
@@ -106,7 +103,7 @@ async function commentOnPost(commentedPostID, commentByUser, comment, request){
         time: Date.now(),
         profilePicture: pic,
     }
-
+    console.log('COMMENT', commentedPostID)
     await Post.findByIdAndUpdate(commentedPostID,{$push: {comments: newComment}}).exec()
         .then(foundData=>found=foundData)
 }
@@ -127,18 +124,10 @@ async function viewComments(postId){
 
 async function editPost(postId, content, currentUser, response) { 
     if(await checkUserIsPoster(postId, currentUser)) {
-        await Post.findByIdAndUpdate(postId, {content: content}, (err, docs) => {
-            if(err) {
-                console.log(err)
-            }
-            else {
-                console.log("updated post: ", docs)
-            }
-        })
-        .then(data=> {
-            console.log(data)
-            //do stuff in here
-        })
+        let found
+        console.log('ITS HERE', postId)
+        await Post.findByIdAndUpdate(postId, {message: content}).exec()
+        .then(foundData=>found=foundData)
     } else {
         response.sendStatus(403)
     }   
@@ -168,6 +157,7 @@ async function deletePost(postId, currentUser, response) {
     const isUserPoster = await checkUserIsPoster(postId, currentUser) 
     if(isUserPoster === true) {
         await Post.findByIdAndDelete(postId)
+        console.log('Deleted')
     } else if (isUserPoster === false) {
         response.sendStatus(403)
     } else {
