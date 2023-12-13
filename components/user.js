@@ -30,7 +30,7 @@ class User {
             password: userData.password, 
             profilePicture: '', 
             about: '',
-            genres: [], 
+            genres: String, 
             interestedGigs: [], 
             postHistory: [],
             friendslist: []
