@@ -61,8 +61,6 @@ app.use('/register', registerRoute)
 app.use('/profile', profileRoute)
 //app.use('/user', userRoute)*/
 
-
-
 const port = process.env.PORT
 app.get('/', (request, response) => {
     response.send("Welcome to gig-mates")
@@ -72,5 +70,3 @@ app.listen(port, () =>{
         console.log(`App listening on port ${port}!`)
     }
 );
-
-
