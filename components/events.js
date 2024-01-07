@@ -11,7 +11,7 @@ const eventSchema=new Schema({
     
 })
 
-const Event = module('Events', eventSchema)
+const Event = model('Events', eventSchema)
 
 function createEvent(eventData) {
     let event = {
