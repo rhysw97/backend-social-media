@@ -21,7 +21,7 @@ app.locals.user = currentUser;
 const loginRoute = require('./routes/loginRoute')
 const postRoute = require('./routes/postRoute')
 const registerRoute = require('./routes/registerRoute')
-
+const eventRoute = require('./routes/eventRoute.js')
 const profileRoute = require('./routes/profileRoute')
 //cors set up to allow front end access
 app.use(cors({
@@ -59,6 +59,7 @@ app.use('/posts', postRoute)
 app.use('/login', loginRoute)
 app.use('/register', registerRoute)
 app.use('/profile', profileRoute)
+app.use('/events', eventRoute)
 //app.use('/user', userRoute)*/
 
 const port = process.env.PORT

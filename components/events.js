@@ -7,10 +7,43 @@ const eventSchema=new Schema({
     location: String,
     date: String,
     time: String,
-    eventPicture: File
+    eventPicture: String
     
 })
 
+const Event = module('Events', eventSchema)
 
+function createEvent(eventData) {
+    let event = {
+        artist: eventData.artist,
+        genre: eventData.genre,
+        location: String,
+        date: String,
+        time: String,
+        eventPicture: String,
+    }
+    
+    Event.create(event)
+        .catch(err=>{
+            console.log("Error: "+err)
+        })
+}
 
-const Event = model('Events', eventSchema)
+async function getEvents() {
+    let data = []
+    await Event.find({})
+        .sort({'time': -1})
+        .exec()
+        .then(mongoData=>{
+            data=mongoData;
+        })
+        .catch(err => {
+            console.log('Error:' + err)
+        })
+    return data;
+}
+
+module.exports = {
+    createEvent,
+    getEvents
+}
