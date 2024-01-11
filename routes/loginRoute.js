@@ -7,6 +7,7 @@ router.post('/', (request, response) => {
     waitForLoginDetails(body, response, request);
 });
 
+//waits for login details and checks they have been accepted. Sends True or false back to user
 async function waitForLoginDetails(data, response, request) {
     const currentUser = request.app.locals.user 
     const loginData = await currentUser.checkLoginDetails(data);
@@ -20,8 +21,6 @@ async function waitForLoginDetails(data, response, request) {
     } else {
         response.send({loggedin:false})
     }  
-
-    console.log('name', request.session.username)
 }
 
 router.post('/logout', (request, response) => {

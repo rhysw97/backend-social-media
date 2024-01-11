@@ -13,6 +13,8 @@ router.post('/', (request, response) => {
         time: data.time,
         eventPicture: data.eventPicture
     };
+
+    console.log(newEvent)
    createEvent(newEvent)
 })
 
