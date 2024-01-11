@@ -8,7 +8,6 @@ const eventSchema=new Schema({
     date: String,
     time: String,
     eventPicture: String
-    
 })
 
 const Event = model('Events', eventSchema)
@@ -17,10 +16,10 @@ function createEvent(eventData) {
     let event = {
         artist: eventData.artist,
         genre: eventData.genre,
-        location: String,
-        date: String,
-        time: String,
-        eventPicture: String,
+        location: eventData.location,
+        date: eventData.date,
+        time: eventData.time,
+        eventPicture: eventData.eventPicture,
     }
     
     Event.create(event)
