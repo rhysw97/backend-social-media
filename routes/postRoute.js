@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
-const {addNewPost, getPosts, likePost, unlikePost, commentOnPost, viewComments, editPost, deletePost} = require('../components/post')
+const {addNewPost, getPosts, likePost, unlikePost, commentOnPost, viewComments, editPost, deletePost, addNewEventPost, getEventPosts} = require('../components/post')
+const { get } = require("mongoose")
 
 router.post('/', (request, response) => {
     const data = request.body
@@ -17,13 +18,27 @@ router.get('/recentPosts', (request, response) => {
     
 })
 
+router.post('/eventPosts', (request, response) => {
+    console.log(request.body.id)
+   getRecentEventPosts(5 , request.body.id, response)
+})
+
+router.post('/createEventPost', (request) => {
+    const data = request.body
+
+    const newPost  = {
+        username: request.session.username,
+        post: data.post,
+        eventId: data.id
+    };
+   addNewEventPost(newPost)
+})
+
 router.post('/likePost', (request, response) => {
-    console.table(request.body)
     likePost(request.body.postId, request.session.username)
 })
 
 router.post('/unlikePost', (request, response) => {
-    console.table(request.body)
     unlikePost(request.body.postId, request.session.username)
 })
 
@@ -41,6 +56,11 @@ async function getRecentPosts(numberOfPosts, response) {
     const recentPosts = await getPosts(numberOfPosts)
   //  console.log('recentPosts', recentPosts)
     response.send(recentPosts)
+}
+
+async function getRecentEventPosts(numberOfPosts, eventId, response) {
+    const recentEventPosts = await getEventPosts(numberOfPosts, eventId)
+    response.send(recentEventPosts)
 }
 
 router.post('/comment', (request, response) => {

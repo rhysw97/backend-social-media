@@ -5,6 +5,7 @@ const {Schema, model} = Mongoose
 const postSchema=new Schema({
     postedBy: String,
     message: String,
+    eventId: String,
     likes: Number,
     time: Date,
     likedBy: [String],
@@ -30,7 +31,8 @@ function addNewPost(postData) {
         likes: 0,
         time: Date.now(),
         likedBy: [],
-        comments: []
+        comments: [],
+        eventId: ''
     }
 
     console.log(myPost)
@@ -165,6 +167,49 @@ async function deletePost(postId, currentUser, response) {
     }
 }
 
+async function addNewEventPost(postData) {
+
+    let myPost = {
+        postedBy: postData.username,
+        message: postData.post,
+        likes: 0,
+        time: Date.now(),
+        likedBy: [],
+        comments: [],
+        eventId: postData.eventId
+    }
+
+    console.log(myPost)
+    Post.create(myPost)
+        .catch(err=>{
+            console.log("Error: "+err)
+        })
+
+}
+
+async function getEventPosts(n=3, eventId) {
+    let data = []
+    await Post.find({})
+        .sort({'time': -1})
+        .limit(n)
+        .exec()
+        .then(mongoData=>{
+            data=mongoData;
+        })
+        .catch(err => {
+            console.log('Error:' + err)
+        })
+    
+    const eventPosts = []
+    data.forEach(post => {
+        if(post.eventId === eventId) {
+            eventPosts.push(post)
+        }
+    })
+    
+    return eventPosts;
+}
+
 module.exports = {
     addNewPost,
     getPosts,
@@ -174,5 +219,7 @@ module.exports = {
     commentOnPost,
     viewComments,
     editPost,
-    deletePost
+    deletePost,
+    addNewEventPost,
+    getEventPosts
 }
