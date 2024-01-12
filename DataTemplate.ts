@@ -1,5 +1,3 @@
-
-
 interface UserData {
     id: string
     email: string
@@ -56,6 +54,7 @@ interface CommentData {
     likedBy: Array<FriendData>
     timePosted: string
 }
+
 export {
     UserData,
     FriendData,
