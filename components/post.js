@@ -4,6 +4,7 @@ const {Schema, model} = Mongoose
 
 const postSchema=new Schema({
     postedBy: String,
+    profilePicture: String,
     message: String,
     eventId: String,
     likes: Number,
@@ -24,9 +25,11 @@ const postSchema=new Schema({
 })
 
 const Post = model('Posts', postSchema)
+
 function addNewPost(postData) {
     let myPost = {
         postedBy: postData.username,
+        profilePicture: postData.profilePicture,
         message: postData.post,
         likes: 0,
         time: Date.now(),
@@ -171,6 +174,7 @@ async function addNewEventPost(postData) {
 
     let myPost = {
         postedBy: postData.username,
+        profilePicture: postData.profilePicture,
         message: postData.post,
         likes: 0,
         time: Date.now(),

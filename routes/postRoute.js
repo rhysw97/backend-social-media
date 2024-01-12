@@ -10,7 +10,7 @@ router.post('/', (request, response) => {
         username: request.session.username,
         post: data.post
     };
-   addNewPost(newPost)
+   createPost(newPost, request.app.locals.user)
 })
 
 router.get('/recentPosts', (request, response) => {
@@ -31,7 +31,7 @@ router.post('/createEventPost', (request) => {
         post: data.post,
         eventId: data.id
     };
-   addNewEventPost(newPost)
+  createEventPost(newPost, request.app.locals.user)
 })
 
 router.post('/likePost', (request, response) => {
@@ -52,17 +52,6 @@ router.delete('/deletePost', (request, response) => {
     deletePost(postID, request.session.username, response)
 })
 
-async function getRecentPosts(numberOfPosts, response) {
-    const recentPosts = await getPosts(numberOfPosts)
-  //  console.log('recentPosts', recentPosts)
-    response.send(recentPosts)
-}
-
-async function getRecentEventPosts(numberOfPosts, eventId, response) {
-    const recentEventPosts = await getEventPosts(numberOfPosts, eventId)
-    response.send(recentEventPosts)
-}
-
 router.post('/comment', (request, response) => {
     console.log('NEW Comment',request.body)
     console.log('name', request.session.username)
@@ -75,5 +64,35 @@ router.post('/viewComments', async (request, response) => {
     console.log('comments', comments)
     response.send(comments)
 })
+
+async function getRecentPosts(numberOfPosts, response) {
+    const recentPosts = await getPosts(numberOfPosts)
+  //  console.log('recentPosts', recentPosts)
+    response.send(recentPosts)
+}
+
+async function getRecentEventPosts(numberOfPosts, eventId, response) {
+    const recentEventPosts = await getEventPosts(numberOfPosts, eventId)
+    response.send(recentEventPosts)
+}
+
+async function createPost(newPost, user) {
+    
+    const profilePicture = await user.returnProfilePicture(newPost.username)
+
+    newPost.profilePicture = profilePicture
+
+   addNewPost(newPost)
+}
+
+async function createEventPost(newPost, user) {
+    
+    const profilePicture = await user.returnProfilePicture(newPost.username)
+
+    newPost.profilePicture = profilePicture
+
+   addNewEventPost(newPost)
+}
+
 
 module.exports = router
