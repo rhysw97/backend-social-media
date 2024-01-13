@@ -13,13 +13,14 @@ const storage = multer.diskStorage({
   });
 
 router.post('/edit', multer({ storage }).single('file'), (request, response) => {
-  
+  console.log(request.body)
   const data = {
     username: request.session.username,
     name: request.body.name,
     about: request.body.bio,
     profilePicture: request.file.filename,
-    genres: request.body.genres.split(',')
+    genres: request.body.genres.split(','),
+    artists: request.body.artists.split(',')
   }
 
   console.log('data', data)
@@ -45,6 +46,11 @@ router.get('/get-profile', (request, response) => {
   } else {
     request.app.locals.user.getProfileData(request.session.username, response)
   }
+
+})
+
+router.post('/update-password', (request, response) => {
+  request.apps.locals.user.updatePassword(request.body.password, request.session.username)
 
 })
 

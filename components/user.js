@@ -30,10 +30,11 @@ class User {
             password: userData.password, 
             profilePicture: '', 
             about: '',
-            genres: String, 
+            genres: [], 
             interestedGigs: [], 
             postHistory: [],
-            friendslist: []
+            friendslist: [],
+            artists: []
         }
         
         const doesUserExist= {
@@ -78,6 +79,7 @@ class User {
             userData.about = data.about
             userData.genres = data.genres
             userData.interestedGigs = data.interestedGigs
+            userData.artists = data.artists
             userData.save()
         }
     }
@@ -94,6 +96,15 @@ class User {
         const userData = await this.user.findOne({username: username})
         if(userData) {
             response.send(userData.profilePicture)
+        }
+    }
+
+    async updatePassword(username, password) {
+        const userData = await this.user.findOne({username: username})
+
+        if(userData) {
+            userData.password = password
+            userData.save()
         }
     }
 
