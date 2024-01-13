@@ -256,25 +256,18 @@ function () {
   }, {
     key: "updatePassword",
     value: function updatePassword(username, password) {
-      var userData;
       return regeneratorRuntime.async(function updatePassword$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
               _context7.next = 2;
-              return regeneratorRuntime.awrap(this.user.findOne({
-                username: username
+              return regeneratorRuntime.awrap(this.user.updateOne({
+                name: data.username
+              }, {
+                password: password
               }));
 
             case 2:
-              userData = _context7.sent;
-
-              if (userData) {
-                userData.password = password;
-                userData.save();
-              }
-
-            case 4:
             case "end":
               return _context7.stop();
           }
