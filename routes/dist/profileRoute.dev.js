@@ -70,8 +70,8 @@ router.get('/get-profile', function (request, response) {
   }
 });
 router.post('/update-password', function (request, response) {
-  console.log(request.body);
-  request.app.locals.user.updatePassword(request.body.password, request.session.username);
+  console.log(request.body.password);
+  request.app.locals.user.updatePassword(request.session.username, request.body.password);
 }); //route for getting a users profile picture (contains url param for name)
 
 router.get('/profile-pic', function (request, response) {

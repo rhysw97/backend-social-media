@@ -50,8 +50,8 @@ router.get('/get-profile', (request, response) => {
 })
 
 router.post('/update-password', (request, response) => {
-  console.log(request.body)
-  request.app.locals.user.updatePassword(request.body.password, request.session.username)
+  console.log(request.body.password)
+  request.app.locals.user.updatePassword(request.session.username, request.body.password)
 
 })
 

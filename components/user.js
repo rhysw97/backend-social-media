@@ -99,7 +99,9 @@ class User {
     }
 
     async updatePassword(username, password) {
-        await this.user.updateOne({name: data.username}, {password: password})
+        console.log(password)
+        const user = await this.user.findOneAndUpdate({name: username}, {$set:{password: password}}, {new: true})
+        console.log(user)
     }
 
     async returnProfilePicture(username) {
